@@ -1,13 +1,15 @@
 # Use an official Ubuntu image as the base
 FROM ubuntu:latest
 
+RUN userdel -r ubuntu || true
+
 # Set DEBIAN_FRONTEND to noninteractive to avoid prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Define arguments for user configuration (can be overridden at build time)
 ARG USERNAME=auditor
-ARG USER_UID=1001
-ARG USER_GID=1001
+ARG USER_UID=1000
+ARG USER_GID=1000
 ARG USER_HOME=/home/$USERNAME
 
 # Update package lists and install essential tools, zsh, git, sudo, and CA certificates
