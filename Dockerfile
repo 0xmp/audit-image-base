@@ -32,9 +32,6 @@ RUN echo "/bin/zsh" | tee -a /etc/shells
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID --shell /bin/zsh --create-home --home-dir $USER_HOME $USERNAME
 
-RUN mkdir -p /workspaces
-RUN chown -R $USERNAME:$USERNAME /workspaces
-
 # Switch to the non-root user
 USER $USERNAME
 
