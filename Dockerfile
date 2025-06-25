@@ -93,7 +93,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 # Install Claude Code globally
 RUN npm install -g @anthropic-ai/claude-code
 
-Copy and set up firewall script (if you have one)
+# Copy and set up firewall script (if you have one)
 COPY init-firewall.sh /usr/local/bin/
 USER root
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
