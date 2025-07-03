@@ -58,12 +58,13 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN mkdir -p /usr/local/share/npm-global && \
     chown -R $USERNAME:$USERNAME /usr/local/share
 
+ENV DEVCONTAINER=true
+
 # Create workspace and config directories
 RUN mkdir -p /workspace $USER_HOME/.claude /commandhistory && \
     touch /commandhistory/.bash_history && \
     chown -R $USERNAME:$USERNAME /workspace $USER_HOME/.claude /commandhistory
 
-ENV DEVCONTAINER=true
 
 # Set up sudo access for the user
 RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
@@ -78,17 +79,22 @@ ENV SHELL=/bin/zsh
 # Switch to the non-root user
 USER $USERNAME
 
-# Set the working directory to the user's home directory
-WORKDIR $USER_HOME
+# Set the working directory to workspace for development
+WORKDIR /workspace
 
-# Set up Oh-My-Zsh with additional configuration
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" -- \
+# First, find the correct fzf paths and set up Oh-My-Zsh
+RUN find /usr -name "key-bindings.zsh" 2>/dev/null | head -1 > /tmp/fzf_keybindings && \
+    find /usr -name "completion.zsh" 2>/dev/null | grep fzf | head -1 > /tmp/fzf_completion && \
+    FZF_KEY_BINDINGS=$(cat /tmp/fzf_keybindings) && \
+    FZF_COMPLETION=$(cat /tmp/fzf_completion) && \
+    sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" -- \
     -p git \
     -p fzf \
-    -a "source /usr/share/doc/fzf/examples/key-bindings.zsh" \
-    -a "source /usr/share/doc/fzf/examples/completion.zsh" \
+    -a "[ -f \"$FZF_KEY_BINDINGS\" ] && source \"$FZF_KEY_BINDINGS\"" \
+    -a "[ -f \"$FZF_COMPLETION\" ] && source \"$FZF_COMPLETION\"" \
     -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
-    -x
+    -x && \
+    rm -f /tmp/fzf_keybindings /tmp/fzf_completion
 
 # Install Claude Code globally
 RUN npm install -g @anthropic-ai/claude-code
@@ -100,9 +106,6 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
     echo "$USERNAME ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/$USERNAME-firewall && \
     chmod 0440 /etc/sudoers.d/$USERNAME-firewall
 USER $USERNAME
-
-# Set the working directory to workspace for development
-WORKDIR /workspace
 
 # Set the default command to run zsh
 CMD ["zsh"]
