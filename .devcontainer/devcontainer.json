@@ -1,0 +1,260 @@
+{
+    "name": "0xmp",
+    "image": "ghcr.io/0xmp/audit-image-base:main",
+    // some security hardening
+    "runArgs": [
+        "--cap-drop=ALL",
+        "--security-opt=apparmor:docker-default",
+        "--security-opt=apparmor:docker-default",
+        "--cap-add=NET_ADMIN",
+        "--cap-add=NET_RAW",
+        "--cap-add=SETUID",
+        "--cap-add=SETGID"
+    ],
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            "settings": {
+                // Killswitch for automated tasks
+                "task.autoDetect": "off",
+                "task.problemMatchers.autoDetect": "off",
+                // Trust no one by default
+                "security.workspace.trust.enabled": false,
+                // Killswitch for telemetry
+                "telemetry.telemetryLevel": "off",
+                // Use zsh by default. Using bash might be more safe and stable.
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "bash",
+                        "icon": "terminal-bash"
+                    },
+                    "zsh": {
+                        "path": "zsh"
+                    }
+                },
+                // add any other vscode settings here
+                // 1. open vscode and the control panel (cmd+shift+p)
+                // 2. search for "Preferences: Open Settings (JSON)"
+                // 3. copy the settings you want to add here
+                "git.autofetch": "all",
+                "extensions.ignoreRecommendations": true,
+                "solidity.telemetry": false,
+                "editor.formatOnSave": false,
+                "editor.formatOnPaste": true,
+                "security.workspace.trust.untrustedFiles": "open",
+                "todo-tree.general.statusBar": "tags",
+                "todo-tree.general.tags": [
+                    "@issue",
+                    "@smell",
+                    "@ask",
+                    "@check",
+                    "@reported",
+                    "@queried",
+                    "?",
+                ],
+                "todo-tree.highlights.defaultHighlight": {
+                    "icon": "light-bulb",
+                    "type": "text",
+                    "foreground": "#000",
+                    "background": "#e2e2e2",
+                    "opacity": 70,
+                    "inColour": "#cfcfcf"
+                },
+                "todo-tree.highlights.customHighlight": {
+                    "@check": {
+                        "icon": "pin",
+                        "type": "text",
+                        "foreground": "#fff",
+                        "background": "#118ab2",
+                        "opacity": 50,
+                        "iconColour": "#118ab2"
+                    },
+                    "@smell": {
+                        "icon": "alert",
+                        "type": "text",
+                        "foreground": "#fff",
+                        "background": "#ffd166",
+                        "opacity": 50,
+                        "iconColour": "#ffd166"
+                    },
+                    "@issue": {
+                        "icon": "alert",
+                        "type": "text",
+                        "foreground": "#fff",
+                        "background": "#d60606",
+                        "opacity": 50,
+                        "iconColour": "#d60606"
+                    },
+                    "?": {
+                        "icon": "comment",
+                        "type": "text",
+                        "foreground": "#AAFF00",
+                        "background": "#06d6a0",
+                        "opacity": 0,
+                        "iconColour": "#06d6a0"
+                    },
+                    "@ask": {
+                        "icon": "question",
+                        "type": "text",
+                        "foreground": "#fff",
+                        "background": "#FF00FF",
+                        "opacity": 50,
+                        "iconColour": "#FF00FF"
+                    },
+                    "@reported": {
+                        "icon": "check-circle",
+                        "type": "text",
+                        "foreground": "#73c2fb",
+                        "background": "#fff",
+                        "opacity": 0,
+                        "iconColour": "#73c2fb"
+                    },
+                    "@queried": {
+                        "icon": "check-circle",
+                        "type": "text",
+                        "foreground": "#73c2fb",
+                        "background": "#fff",
+                        "opacity": 0,
+                        "iconColour": "#73c2fb"
+                    },
+                },
+                "solidity-va.test.defaultUnittestTemplate": "hardhat",
+                "solidity-va.uml.options": "null",
+                "editor.minimap.enabled": false,
+                "git.openRepositoryInParentFolders": "always",
+                "terminal.integrated.env.osx": {
+                    "HISTFILE": "$HOME/.zsh_history"
+                },
+                "todo-tree.tree.hideIconsWhenGroupedByTag": true,
+                "inline-bookmarks.default.words.blue": "@check",
+                "inline-bookmarks.default.words.purple": "@ask",
+                "inline-bookmarks.default.words.red": "@issue",
+                "inline-bookmarks.default.words.green": "@smell",
+                "inline-bookmarks.view.exclude.gitIgnore": true,
+                "inline-bookmarks.expert.custom.styles": {
+                    "blue": {
+                        "gutterIconColor": "#118ab2",
+                    },
+                    "purple": {
+                        "gutterIconColor": "#FF00FF",
+                    },
+                    "red": {
+                        "gutterIconColor": "#d60606",
+                    },
+                    "green": {
+                        "gutterIconColor": "#F9B208",
+                    },
+                },
+                "inline-bookmarks.exceptions.file.extensions.ignore": ".json",
+                "liveServer.settings.donotShowInfoMsg": true,
+                "explorer.confirmDelete": false,
+                "githubPullRequests.pullBranch": "never",
+                "githubPullRequests.fileListLayout": "tree",
+                "local-history.exclude": [
+                    "**/.history/**",
+                    "**/.vscode/**",
+                    "**/node_modules/**",
+                    "**/typings/**",
+                    "**/out/**",
+                    "**/Code/User/**"
+                ],
+                "extensions.autoUpdate": false,
+                "partialDiff.enableTelemetry": false,
+                "local-history.path": "~/Documents/Code/history/",
+                "local-history.saveDelay": 60,
+                "[solidity]": {
+                    "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
+                },
+                "debug.allowBreakpointsEverywhere": true,
+                "rust-analyzer.rustfmt.extraArgs": [
+                    "+nightly"
+                ],
+                "[rust]": {
+                    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+                },
+                "explorer.confirmDragAndDrop": false,
+                "todo-tree.general.revealBehaviour": "leave focus in tree",
+                "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
+                "update.showReleaseNotes": false,
+                "solidity.defaultCompiler": "localFile",
+                "simbolik.api-key": "your-api-key",
+                "terminal.integrated.fontFamily": "MesloLGS NF",
+                "solidity.monoRepoSupport": false,
+                "solidity.packageDefaultDependenciesContractsDirectory": "",
+                "gitlens.showWelcomeOnInstall": false,
+                "gitlens.showWhatsNewAfterUpgrades": false,
+                "gitlens.plusFeatures.enabled": false,
+                "gitlens.currentLine.enabled": false,
+                "gitlens.codeLens.authors.enabled": false,
+                "gitlens.codeLens.enabled": false,
+                "gitlens.codeLens.recentChange.enabled": false,
+                "gitlens.hovers.enabled": false,
+                "gitlens.hovers.avatars": false,
+                "gitlens.launchpad.indicator.enabled": false,
+                "gitlens.views.searchAndCompare.files.layout": "list",
+                "codesnap.backgroundColor": "#ffffff",
+                "local-history.maxDisplay": 30,
+                "security.workspace.trust.startupPrompt": "never",
+                "lldb.suppressUpdateNotifications": true,
+                "todo-tree.filtering.excludeGlobs": [],
+                "task.allowAutomaticTasks": "on",
+            },
+            "extensions": [
+                // Here goes the list of extensions you want to have available
+                // in the devcontainer. You can get the list of extensions from
+                // the host machine with: code --list-extensions
+                // copy the list here, each extension wrapped in double quotes
+                "adpyke.codesnap",
+                "caponetto.vscode-diff-viewer",
+                "eamodio.gitlens",
+                "github.codespaces",
+                "github.vscode-pull-request-github",
+                "golang.go",
+                "gruntfuggly.todo-tree",
+                "iden3.circom",
+                "james-yu.latex-workshop",
+                "jebbs.plantuml",
+                "juanblanco.solidity",
+                "kortina.vscode-markdown-notes",
+                "mhutchie.git-graph",
+                "ms-vscode-remote.remote-containers",
+                "ms-vscode.hexeditor",
+                "ms-vscode.live-server",
+                "nomicfoundation.hardhat-solidity",
+                "pdconsec.vscode-print",
+                "ritwickdey.liveserver",
+                "runtimeverification.simbolik",
+                "rust-lang.rust-analyzer",
+                "ryu1kn.partial-diff",
+                "shd101wyy.markdown-preview-enhanced",
+                "tamasfe.even-better-toml",
+                "tintinweb.graphviz-interactive-preview",
+                "tintinweb.solidity-visual-auditor",
+                "tintinweb.vscode-circom-pro",
+                "tintinweb.vscode-ethover",
+                "tintinweb.vscode-inline-bookmarks",
+                "tintinweb.vscode-solidity-flattener",
+                "tintinweb.vscode-solidity-language",
+                "vadimcn.vscode-lldb",
+                "xyz.local-history",
+                "yzane.markdown-pdf",
+                "zzh1996.yulhighlight",
+            ]
+        }
+    },
+    "remoteUser": "auditor",
+    "mounts": [
+        "source=claude-code-bashhistory,target=/commandhistory,type=volume",
+        "source=claude-code-config,target=/home/auditor/.claude,type=volume"
+    ],
+    "remoteEnv": {
+        "NODE_OPTIONS": "--max-old-space-size=4096",
+        "CLAUDE_CONFIG_DIR": "/home/auditor/.claude",
+        "POWERLEVEL9K_DISABLE_GITSTATUS": "true"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "sudo /usr/local/bin/init-firewall.sh"
+}
