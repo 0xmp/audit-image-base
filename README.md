@@ -18,11 +18,11 @@ The Dockerfile performs the following actions:
 You can pull this image using the following command:
 
 ```bash
-docker pull ghcr.io/artifex1/audit-image-base:main
+docker pull ghcr.io/0xmp/audit-image-base:main
 ```
 
 You can then run a container based on this image:
 
 ```bash
-docker run -it ghcr.io/artifex1/audit-image-base:main
+docker run -it ghcr.io/0xmp/audit-image-base:main
 ```
