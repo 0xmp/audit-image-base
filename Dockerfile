@@ -82,19 +82,19 @@ USER $USERNAME
 # Set the working directory to workspace for development
 WORKDIR /workspace
 
-# First, find the correct fzf paths and set up Oh-My-Zsh
-RUN find /usr -name "key-bindings.zsh" 2>/dev/null | head -1 > /tmp/fzf_keybindings && \
-    find /usr -name "completion.zsh" 2>/dev/null | grep fzf | head -1 > /tmp/fzf_completion && \
-    FZF_KEY_BINDINGS=$(cat /tmp/fzf_keybindings) && \
-    FZF_COMPLETION=$(cat /tmp/fzf_completion) && \
-    sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" -- \
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" -- \
     -p git \
-    -p fzf \
-    -a "[ -f \"$FZF_KEY_BINDINGS\" ] && source \"$FZF_KEY_BINDINGS\"" \
-    -a "[ -f \"$FZF_COMPLETION\" ] && source \"$FZF_COMPLETION\"" \
     -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
     -x && \
-    rm -f /tmp/fzf_keybindings /tmp/fzf_completion
+    # Find and configure fzf paths manually
+    FZF_KEY_BINDINGS=$(find /usr -name "key-bindings.zsh" 2>/dev/null | head -1) && \
+    FZF_COMPLETION=$(find /usr -name "completion.zsh" 2>/dev/null | grep fzf | head -1) && \
+    if [ -n "$FZF_KEY_BINDINGS" ] && [ -f "$FZF_KEY_BINDINGS" ]; then \
+        echo "[ -f \"$FZF_KEY_BINDINGS\" ] && source \"$FZF_KEY_BINDINGS\"" >> ~/.zshrc; \
+    fi && \
+    if [ -n "$FZF_COMPLETION" ] && [ -f "$FZF_COMPLETION" ]; then \
+        echo "[ -f \"$FZF_COMPLETION\" ] && source \"$FZF_COMPLETION\"" >> ~/.zshrc; \
+    fi
 
 # Install Claude Code globally
 RUN npm install -g @anthropic-ai/claude-code

@@ -1,5 +1,6 @@
 {
     "name": "0xmp",
+    // "image": "audit-image-base:latest",
     "image": "ghcr.io/0xmp/audit-image-base:main",
     // some security hardening
     "runArgs": [
